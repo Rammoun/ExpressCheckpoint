@@ -7,12 +7,14 @@ app.set('view engine', hbs);
 
 let date=new Date();
 let hrs= date.getHours();
-app.get('/',  (req, res)=>{
-  if (hrs<8 || hrs >17){res.redirect('/closed')}
-  else res.redirect('/home')
+app.use(hours=(req,res,next)=>{
+  if (hrs<8 || hrs >17){res.render('closed.hbs')}
+  else {res.render('home.hbs');
+}
+next();
 })
-app.get('/closed', (req,res)=>{
-  res.render('closed.hbs');
+app.get('/',  (req, res)=>{
+  res.redirect('/home');
 })
 app.get('/home', (req,res)=>{
   res.render('home.hbs');
